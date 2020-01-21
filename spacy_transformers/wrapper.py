@@ -172,9 +172,14 @@ class TransformersWrapper(PyTorchWrapper):
                 fields[1] = RaggedArray.blank()
             else:
                 fields[1] = RaggedArray(torch2xp(fields[1]), [1] * len(lengths))
-            lh, po, _, _2 = fields
+
+            fields[2] = [RaggedArray(torch2xp(fields[2][i]), [1] * len(lengths)) for i in range(len(fields[2]))]
+            fields[3] = [RaggedArray(torch2xp(fields[3][i]), [1] * len(lengths)) for i in range(len(fields[3]))]
+
+            lh, po, ah, aa = fields
+
         # Convert last_hidden_state to xp
-        return Activations(lh, po)
+        return Activations(lh, po, ah, aa)
 
     def get_model_kwargs(self, inputs):
         padded = inputs.to_padded()

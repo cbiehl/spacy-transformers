@@ -91,6 +91,8 @@ class RaggedArray:
 class Activations:
     lh: RaggedArray
     po: RaggedArray
+    ah: RaggedArray
+    aa: RaggedArray
 
     @classmethod
     def blank(cls, *, xp=numpy):
