@@ -179,8 +179,19 @@ class TransformersTok2Vec(Pipe):
                 ATTRS.d_last_hidden_state, xp.zeros((0, 0), dtype=wp_tensor.dtype)
             )
             doc._.set(ATTRS.d_pooler_output, xp.zeros((0, 0), dtype=wp_tensor.dtype))
+            try:
+                doc._.set(ATTRS.all_hidden_states, activations.ah)
+            except:
+                doc._.set(ATTRS.all_hidden_states, None)
+
+            try:
+                doc._.set(ATTRS.all_attentions, activations.aa)
+            except:
+                doc._.set(ATTRS.all_attentions, None)
+
             doc._.set(ATTRS.d_all_hidden_states, [])
             doc._.set(ATTRS.d_all_attentions, [])
+
             if wp_tensor.shape != (len(doc._.get(ATTRS.word_pieces)), self.model.nO):
                 raise ValueError(
                     "Mismatch between tensor shape and word pieces. This usually "
