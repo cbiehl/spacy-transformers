@@ -173,8 +173,7 @@ class TransformersWrapper(PyTorchWrapper):
             else:
                 fields[1] = RaggedArray(torch2xp(fields[1]), [1] * len(lengths))
 
-            fields[2] = [RaggedArray(torch2xp(fields[2][i]), [1] * len(lengths)) for i in range(len(fields[2]))]
-            fields[3] = [RaggedArray(torch2xp(fields[3][i]), [1] * len(lengths)) for i in range(len(fields[3]))]
+            fields[2] = [RaggedArray.from_padded(torch2xp(fields[2][i]), lengths) for i in range(len(fields[2]))]
 
             lh, po, ah, aa = fields
 
